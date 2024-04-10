@@ -54,35 +54,29 @@ let searchPokemonField = ref("")
 let pokemonSelected = reactive(ref())
 let loading = ref(false)
 
-onMounted(() => {
+onMounted(()=>{
   fetch("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0")
-    .then((res) => res.json())
-    .then((res) => (pokemons.value = res.results));
-});
+  .then(res => res.json())
+  .then(res => pokemons.value = res.results);
+})
 
-const pokemonsFiltered = computed(() => {
-  if(pokemons.value && searchPokemonField.value) {
-    return pokemons.value.filter(pokemon=> pokemon.name.toLowerCase().includes(searchPokemonField.value.toLowerCase()))
+const pokemonsFiltered = computed(()=>{
+  if(pokemons.value && searchPokemonField.value){
+    return pokemons.value.filter(pokemon=>
+      pokemon.name.toLowerCase().includes(searchPokemonField.value.toLowerCase())
+    )
   }
-  return pokemons.value
+  return pokemons.value;
 })
 
 const selectPokemon = async (pokemon) => {
   loading.value = true;
-  try {
-    const response = await fetch(pokemon.url);
-    if (!response.ok) {
-      throw new Error('Failed to fetch Pokémon data');
-    }
-    const data = await response.json();
-    pokemonSelected.value = data;
-  } catch (error) {
-    console.error(error);
-    pokemonSelected.value = null;
-    // Poderia exibir uma mensagem de erro ao usuário em vez de apenas logar no console
-  } finally {
-    loading.value = false;
-  }
+  await fetch(pokemon.url)
+  .then(res => res.json())
+  .then(res => pokemonSelected.value = res)
+  .catch(err => alert(err))
+  .finally(()=> loading.value = false)
+  
 }
 </script>
 
