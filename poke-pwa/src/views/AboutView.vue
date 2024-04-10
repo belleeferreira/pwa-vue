@@ -1,9 +1,9 @@
 <template>
     <div class="container mt-4">
         <div class="card">
-            <h1 class="text-center">ola</h1>
+            <h1 class="text-center">Fiz esse projeto com o intuito de aprender sobre PWA</h1>
             <div class="card-body">
-                teste
+                Usei a documentação do VITE PWA e também vi um mini curso. 
             </div>
         </div>
     </div>
