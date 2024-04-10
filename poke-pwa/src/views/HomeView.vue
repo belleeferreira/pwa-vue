@@ -68,12 +68,21 @@ const pokemonsFiltered = computed(() => {
 })
 
 const selectPokemon = async (pokemon) => {
-  loading.value= true;
-  await fetch(pokemon.url)
-  .then(res => res.json())
-  .then (res => pokemonSelected.value = res)
-  .catch(err=>alert(err))
-  .finally(()=> loading.value = false)
+  loading.value = true;
+  try {
+    const response = await fetch(pokemon.url);
+    if (!response.ok) {
+      throw new Error('Failed to fetch Pokémon data');
+    }
+    const data = await response.json();
+    pokemonSelected.value = data;
+  } catch (error) {
+    console.error(error);
+    pokemonSelected.value = null;
+    // Poderia exibir uma mensagem de erro ao usuário em vez de apenas logar no console
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 

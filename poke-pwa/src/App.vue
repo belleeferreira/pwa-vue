@@ -1,7 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-
-let num = ref (0)
 
 </script>
 
